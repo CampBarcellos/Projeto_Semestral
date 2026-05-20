@@ -1,0 +1,43 @@
+name: CI — Biblioteca Pessoal
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Baixa o código do repositório
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      # 2. Configura o Java 17
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # 3. Cache do Maven (deixa mais rápido nas próximas execuções)
+      - name: Cache Maven
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
+
+      # 4. Roda os testes (Testcontainers sobe o MySQL via Docker automaticamente)
+      - name: Rodar testes
+        run: mvn test
+
+      # 5. Gera o relatório de cobertura com JaCoCo
+      - name: Gerar relatório de cobertura
+        run: mvn jacoco:report
+
+      # 6. Faz o build do projeto
+      - name: Build do projeto
+        run: mvn package -DskipTests

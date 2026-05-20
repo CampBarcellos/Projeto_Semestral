@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Biblioteca Pessoal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+
+<div id="page-auth" class="page active">
+  <div class="auth-box">
+    <div class="auth-logo">
+      <span class="icon">📚</span>
+      <h1>Biblioteca</h1>
+      <p>Gerencie sua coleção pessoal</p>
+    </div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchTab('login')">Entrar</button>
+      <button class="auth-tab" onclick="switchTab('cadastro')">Cadastrar</button>
+    </div>
+    <div id="form-login" class="auth-form active">
+      <div id="msg-login" class="msg"></div>
+      <div class="field"><label>E-mail</label><input type="email" id="login-email" placeholder="seu@email.com"/></div>
+      <div class="field"><label>Senha</label><input type="password" id="login-senha" placeholder="••••••••"/></div>
+      <button class="btn-primary" onclick="fazerLogin()">Entrar</button>
+    </div>
+    <div id="form-cadastro" class="auth-form">
+      <div id="msg-cadastro" class="msg"></div>
+      <div class="field"><label>Nome completo</label><input type="text" id="cad-nome" placeholder="Seu nome"/></div>
+      <div class="field"><label>E-mail</label><input type="email" id="cad-email" placeholder="seu@email.com"/></div>
+      <div class="field"><label>Senha</label><input type="password" id="cad-senha" placeholder="Mínimo 6 caracteres"/></div>
+      <div class="field">
+        <label>CEP</label>
+        <input type="text" id="cad-cep" placeholder="00000-000" maxlength="9" oninput="buscarCep(this.value)"/>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Cidade</label><input type="text" id="cad-cidade" placeholder="Preenchido pelo CEP" disabled/></div>
+        <div class="field"><label>Estado</label><input type="text" id="cad-estado" placeholder="UF" disabled/></div>
+      </div>
+      <div class="field"><label>Rua</label><input type="text" id="cad-rua" placeholder="Preenchido pelo CEP" disabled/></div>
+      <button class="btn-primary" onclick="fazerCadastro()">Criar conta</button>
+    </div>
+  </div>
+</div>
+
+<div id="page-app" class="page">
+  <header>
+    <div class="brand">📚 Biblioteca</div>
+    <div class="header-right">
+      <div class="user-chip">
+        <div class="avatar" id="user-avatar">U</div>
+        <span id="user-nome-header">Usuário</span>
+      </div>
+      <button class="btn-ghost" onclick="sair()">Sair</button>
+    </div>
+  </header>
+  <main>
+    <div id="sub-lista" class="subpage active">
+      <div class="list-header">
+        <h2>Meus <span>Livros</span></h2>
+        <button class="btn-add" onclick="irParaForm()">＋ Novo livro</button>
+      </div>
+      <div class="search-bar">
+        <span class="ico">🔍</span>
+        <input type="text" id="search-input" placeholder="Buscar por título ou autor…" oninput="filtrarLivros()"/>
+      </div>
+      <div class="stats-bar" id="stats-bar"></div>
+      <div class="livros-grid" id="livros-grid"></div>
+    </div>
+    <div id="sub-form" class="subpage">
+      <div class="form-wrap">
+        <h2 class="form-title" id="form-titulo">Adicionar <span>Livro</span></h2>
+        <div class="livro-form">
+          <div id="msg-form" class="msg"></div>
+          <div class="field"><label>Título</label><input type="text" id="f-titulo" placeholder="Ex: Dom Casmurro"/></div>
+          <div class="field"><label>Autor</label><input type="text" id="f-autor" placeholder="Ex: Machado de Assis"/></div>
+          <div class="form-row">
+            <div class="field"><label>Ano de publicação</label><input type="number" id="f-ano" placeholder="Ex: 1899"/></div>
+            <div class="field"><label>Número de páginas</label><input type="number" id="f-paginas" placeholder="Ex: 256"/></div>
+          </div>
+          <div class="form-actions">
+            <button class="btn-cancel" onclick="irParaLista()">Cancelar</button>
+            <button class="btn-save" onclick="salvarLivro()">💾 Salvar livro</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="overlay" id="modal-del">
+  <div class="modal">
+    <h3>Remover livro?</h3>
+    <p>Essa ação não pode ser desfeita.</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
+      <button class="btn-confirm-del" onclick="confirmarDeletar()">Remover</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="/js/app.js"></script>
+</body>
+</html>
