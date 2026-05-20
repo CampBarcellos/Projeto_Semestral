@@ -43,15 +43,11 @@ jobs:
 
       - name: Rodar testes
         working-directory: biblioteca
-        env:
-          SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/biblioteca?useSSL=false&serverTimezone=UTC
-          SPRING_DATASOURCE_USERNAME: root
-          SPRING_DATASOURCE_PASSWORD: root
-        run: mvn test
+        run: mvn test "-Dspring.datasource.url=jdbc:mysql://localhost:3306/biblioteca?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true" -Dspring.datasource.username=root -Dspring.datasource.password=root
 
       - name: Gerar relatorio de cobertura
         working-directory: biblioteca
-        run: mvn jacoco:report
+        run: mvn jacoco:report "-Dspring.datasource.url=jdbc:mysql://localhost:3306/biblioteca?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true" -Dspring.datasource.username=root -Dspring.datasource.password=root
 
       - name: Build do projeto
         working-directory: biblioteca
